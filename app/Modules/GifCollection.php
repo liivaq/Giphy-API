@@ -23,4 +23,11 @@ class GifCollection
         return $this->collection;
     }
 
+    public function display()
+    {/** @var Gif $gif */
+        foreach ($this->getCollection() as $gif) {
+            echo "<img src='{$gif->getUrl()}' alt='{$gif->getTitle()}'>" . PHP_EOL;
+        }
+    }
+
 }
