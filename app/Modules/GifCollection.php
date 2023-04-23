@@ -14,7 +14,7 @@ class GifCollection
     public function fetchGifs(object $data)
     {
         foreach ($data->data as $gif) {
-            $this->collection[] = new \App\Modules\Gif($gif->title, $gif->images->fixed_height->url);
+            $this->collection[] = new Gif($gif->title, $gif->images->fixed_height->url);
         }
     }
 
@@ -22,12 +22,4 @@ class GifCollection
     {
         return $this->collection;
     }
-
-    public function display()
-    {/** @var Gif $gif */
-        foreach ($this->getCollection() as $gif) {
-            echo "<img src='{$gif->getUrl()}' alt='{$gif->getTitle()}'>" . PHP_EOL;
-        }
-    }
-
 }

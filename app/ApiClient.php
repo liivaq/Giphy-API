@@ -9,6 +9,8 @@ class ApiClient
 {
     private Client $client;
     private string $apiKey;
+    private int $limit = 30;
+    private string $url = 'http://api.giphy.com/v1/gifs';
 
     public function __construct()
     {
@@ -16,21 +18,22 @@ class ApiClient
         $this->apiKey = $_ENV['API_KEY'];
     }
 
-    public function getTrendingGifs($limit = 10): GifCollection
+    public function getTrendingGifs(): GifCollection
     {
-        $gifs = $this->client->get('http://api.giphy.com/v1/gifs/trending?api_key=' . $this->apiKey . '&limit=' . $limit);
+        $gifs = $this->client->get($this->url.'/trending?api_key=' . $this->apiKey . '&limit=' . $this->limit);
         return new GifCollection(json_decode($gifs->getBody()->getContents()));
     }
 
-    public function searchGifs($input, $limit = 10): GifCollection
+    public function searchGifs($input): GifCollection
     {
-        $gifs = $this->client->get('http://api.giphy.com/v1/gifs/search?q=' . $input . '&api_key=' . $this->apiKey . '&limit=' . $limit);
+        $gifs = $this->client->get
+        ($this->url.'/search?q=' . $input . '&api_key=' . $this->apiKey . '&limit=' . $this->limit);
         return new GifCollection(json_decode($gifs->getBody()->getContents()));
     }
 
-    public function getRandomGif($limit = 10): GifCollection
+    public function getRandomGif(): GifCollection
     {
-        $gifs = $this->client->get('http://api.giphy.com/v1/gifs/random?api_key=' . $this->apiKey . '&limit=' . $limit);
+        $gifs = $this->client->get($this->url.'/random?api_key=' . $this->apiKey . '&limit=' . $this->limit);
         var_dump(json_decode($gifs->getBody()->getContents()));
         return new GifCollection(json_decode($gifs->getBody()->getContents()));
     }
