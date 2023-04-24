@@ -24,8 +24,12 @@ class ApiClient
         return new GifCollection(json_decode($gifs->getBody()->getContents()));
     }
 
-    public function search(): ?GifCollection
+    public function searchGifs(): ?GifCollection
     {
+        if(empty($_GET['search'])){
+            return $this->getTrending();
+        }
+
         $gifs = $this->client->get
         ($this->url . '/search?q=' . $_GET['search'] . '&api_key=' . $this->apiKey . '&limit=' . $this->limit);
         return new GifCollection(json_decode($gifs->getBody()->getContents()));

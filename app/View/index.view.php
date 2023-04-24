@@ -40,16 +40,11 @@
         <br>
     </form>
 
-    <?php
-
-    use App\Modules\Gif;
-
-    /** @var Gif $gif */
-    foreach ($gifs as $gif) :?>
+    <?php foreach ((new App\ApiClient())->searchGifs()->getCollection() as $gif):?>
         <a href="<?= $gif->getGiphyLink() ?>" target="_blank">
             <img id="gif" src='<?= $gif->getUrl() ?>' alt='<?= $gif->getTitle() ?>'>
         </a>
-    <?php endforeach; ?>
+    <?php endforeach;?>
 </div>
 </body>
 </html>
