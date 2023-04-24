@@ -6,11 +6,13 @@ class Gif
 {
     private string $title;
     private string $url;
+    private string $link;
 
-    public function __construct(string $title, string $url)
+    public function __construct(string $title, string $url, string $link)
     {
         $this->url = $url;
         $this->title = $title;
+        $this->link = $link;
     }
 
     public function getTitle(): string
@@ -21,6 +23,10 @@ class Gif
     public function getUrl(): string
     {
         return $this->url;
+    }
+
+    public function getGiphyLink(): string{
+        return $this->link;
     }
 
 }

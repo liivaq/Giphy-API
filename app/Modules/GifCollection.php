@@ -4,7 +4,7 @@ namespace App\Modules;
 
 class GifCollection
 {
-    private array $collection;
+    private array $collection = [];
 
     public function __construct(object $data)
     {
@@ -14,7 +14,11 @@ class GifCollection
     public function fetchGifs(object $data)
     {
         foreach ($data->data as $gif) {
-            $this->collection[] = new Gif($gif->title, $gif->images->fixed_height->url);
+            $this->collection[] = new Gif(
+                $gif->title,
+                $gif->images->fixed_height->url,
+                $gif->url
+            );
         }
     }
 
@@ -22,4 +26,5 @@ class GifCollection
     {
         return $this->collection;
     }
+
 }
