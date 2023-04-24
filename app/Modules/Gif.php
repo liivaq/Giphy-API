@@ -25,8 +25,8 @@ class Gif
         return $this->url;
     }
 
-    public function getGiphyLink(): string{
+    public function getGiphyLink(): string
+    {
         return $this->link;
     }
-
 }

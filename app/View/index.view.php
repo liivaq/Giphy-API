@@ -3,36 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Giphy App</title>
-    <style>
-        #header {
-            text-align: center;
-            background-color: black;
-            color: ivory;
-            padding: 5px;
-        }
-
-        #form {
-            text-align: center;
-        }
-
-        #gif {
-            height: 150px;
-            margin: 10px;
-            border: 3px solid black;
-        }
-
-        #gifs {
-            background-color: darkcyan;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="/styles/styles.css">
 </head>
 <body>
-<header id="header">
+<header>
     <h1>Giphy App</h1>
 </header>
-<div id="gifs">
-    <form id="form" action="" method="GET">
+<div class="gifs">
+    <form class="form" action="" method="GET">
         <br>
         <label for="search"></label>
         <input type="text" name="search" id="search" placeholder="Search for gifs">
@@ -40,11 +18,15 @@
         <br>
     </form>
 
-    <?php foreach ((new App\ApiClient())->searchGifs()->getCollection() as $gif):?>
+    <?php use App\Modules\Gif;
+
+    /** @var Gif $gif */
+    foreach ((new App\ApiClient())->searchGifs()->getCollection() as $gif): ?>
         <a href="<?= $gif->getGiphyLink() ?>" target="_blank">
-            <img id="gif" src='<?= $gif->getUrl() ?>' alt='<?= $gif->getTitle() ?>'>
+            <img class="gif" src='<?= $gif->getUrl() ?>' alt='<?= $gif->getTitle() ?>'>
         </a>
-    <?php endforeach;?>
+    <?php endforeach; ?>
+
 </div>
 </body>
 </html>

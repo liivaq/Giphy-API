@@ -11,7 +11,7 @@ class GifCollection
         $this->fetchGifs($data);
     }
 
-    public function fetchGifs(object $data)
+    public function fetchGifs(object $data): void
     {
         foreach ($data->data as $gif) {
             $this->collection[] = new Gif(

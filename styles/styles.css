@@ -1,0 +1,21 @@
+header {
+    text-align: center;
+    background-color: black;
+    color: ivory;
+    padding: 5px;
+}
+
+.form {
+    text-align: center;
+}
+
+.gif {
+    height: 150px;
+    margin: 10px;
+    border: 3px solid black;
+}
+
+.gifs {
+    background-color: darkcyan;
+    text-align: center;
+}
