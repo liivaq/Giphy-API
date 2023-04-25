@@ -6,14 +6,14 @@ class GifCollection
 {
     private array $collection = [];
 
-    public function __construct(object $data)
+    public function __construct(object $gifs)
     {
-        $this->fetchGifs($data);
+        $this->fetchGifs($gifs);
     }
 
-    public function fetchGifs(object $data): void
+    public function fetchGifs(object $gifs): void
     {
-        foreach ($data->data as $gif) {
+        foreach ($gifs->data as $gif) {
             $this->collection[] = new Gif(
                 $gif->title,
                 $gif->images->fixed_height->url,

@@ -11,13 +11,13 @@ class ApiClient
     private string $apiKey;
     private int $limit;
 
-    public function __construct()
+    public function __construct($limit = 30)
     {
         $this->client = new Client([
             'base_uri' => 'https://api.giphy.com/'
         ]);
         $this->apiKey = $_ENV['API_KEY'];
-        $this->limit = 30;
+        $this->limit = $limit;
     }
 
     public function getTrending(): GifCollection
@@ -47,8 +47,7 @@ class ApiClient
             ]
         ];
 
-        $gifs = $this->client->get
-        ('v1/gifs/search?', $parameters);
+        $gifs = $this->client->get('v1/gifs/search?', $parameters);
         return new GifCollection(json_decode($gifs->getBody()->getContents()));
     }
 }
