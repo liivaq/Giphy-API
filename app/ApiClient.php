@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Modules\GifCollection;
+use App\Modules\Gif;
 use GuzzleHttp\Client;
 
 class ApiClient
@@ -10,6 +10,7 @@ class ApiClient
     private Client $client;
     private string $apiKey;
     private int $limit;
+    private array $collection = [];
 
     public function __construct($limit = 30)
     {
@@ -20,7 +21,7 @@ class ApiClient
         $this->limit = $limit;
     }
 
-    public function getTrending(): GifCollection
+    public function getTrending(): array
     {
         $parameters = [
             'query' => [
@@ -30,24 +31,32 @@ class ApiClient
         ];
 
         $gifs = $this->client->get('v1/gifs/trending', $parameters);
-        return new GifCollection(json_decode($gifs->getBody()->getContents()));
+        return $this->fetchGifs(json_decode($gifs->getBody()->getContents()));
     }
 
-    public function searchGifs(): GifCollection
+    public function searchGifs(): array
     {
-        if (empty($_GET['search'])) {
-            return $this->getTrending();
-        }
-
         $parameters = [
             'query' => [
-                'q' => $_GET['search'],
+                'q' => $_GET['search'] ?? 'coding',
                 'api_key' => $this->apiKey,
                 'limit' => $this->limit,
             ]
         ];
 
         $gifs = $this->client->get('v1/gifs/search?', $parameters);
-        return new GifCollection(json_decode($gifs->getBody()->getContents()));
+        return $this->fetchGifs(json_decode($gifs->getBody()->getContents()));
+    }
+
+    private function fetchGifs(object $gifs): array
+    {
+        foreach ($gifs->data as $gif) {
+            $this->collection[] = new Gif(
+                $gif->title,
+                $gif->images->fixed_height->url,
+                $gif->url
+            );
+        }
+        return $this->collection;
     }
 }

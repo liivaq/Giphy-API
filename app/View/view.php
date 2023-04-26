@@ -18,14 +18,11 @@
         <br>
     </form>
 
-    <?php use App\Modules\Gif;
-
-    /** @var Gif $gif */
-    foreach ((new App\ApiClient())->searchGifs()->getCollection() as $gif): ?>
-        <a href="<?= $gif->getGiphyLink() ?>" target="_blank">
-            <img class="gif" src='<?= $gif->getUrl() ?>' alt='<?= $gif->getTitle() ?>'>
-        </a>
-    <?php endforeach; ?>
+    {% for gif in gifs %}
+    <a href="{{ gif.link }}" target="_blank">
+        <img class="gif" src="{{ gif.url }}" alt="{{ gif.title }}">
+    </a>
+    {% endfor %}
 
 </div>
 </body>
