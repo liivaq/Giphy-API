@@ -9,12 +9,13 @@ use Twig\Loader\FilesystemLoader;
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-$loader = new FilesystemLoader('app/View');
+$loader = new FilesystemLoader('app/Views');
 $twig = new Environment($loader);
 
-$dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
+$dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/', ['App\Controllers\GifController', 'search']);
     $r->addRoute('GET', '/trending', ['App\Controllers\GifController', 'trending']);
+    $r->addRoute('GET', '/random', ['App\Controllers\GifController', 'random']);
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];
@@ -27,11 +28,7 @@ $uri = rawurldecode($uri);
 $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
 switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:
-        echo 'Page not found';
-        break;
-    case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
-        $allowedMethods = $routeInfo[1];
-        echo 'Method not allowed';
+        echo $twig->render('404.html');
         break;
     case FastRoute\Dispatcher::FOUND:
         $handler = $routeInfo[1];
@@ -39,6 +36,6 @@ switch ($routeInfo[0]) {
         $controller = new $controllerName;
         $gifs = $controller->{$method}();
 
-        echo $twig->render('view.html', ['gifs' => $gifs]);
+        echo $twig->render('gifs.html', ['gifs' => $gifs]);
         break;
 }

@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Modules\Gif;
+use App\Models\Gif;
 use GuzzleHttp\Client;
 
 class ApiClient
@@ -21,7 +21,7 @@ class ApiClient
         $this->limit = $limit;
     }
 
-    public function getTrending(): array
+    public function getTrending(): ?array
     {
         $parameters = [
             'query' => [
@@ -34,7 +34,7 @@ class ApiClient
         return $this->fetchGifs(json_decode($gifs->getBody()->getContents()));
     }
 
-    public function searchGifs(): array
+    public function searchGifs(): ?array
     {
         $parameters = [
             'query' => [
@@ -48,7 +48,25 @@ class ApiClient
         return $this->fetchGifs(json_decode($gifs->getBody()->getContents()));
     }
 
-    private function fetchGifs(object $gifs): array
+    public function getRandomGif(): array
+    {
+        $parameters = [
+            'query' => [
+                'api_key' => $this->apiKey,
+            ]
+        ];
+
+        $response = $this->client->get('v1/gifs/random?', $parameters);
+        $gif = json_decode($response->getBody()->getContents());
+        $this->collection[] = new Gif(
+                $gif->data->title,
+                $gif->data->images->fixed_height->url,
+                $gif->data->url
+            );
+        return $this->collection;
+    }
+
+    private function fetchGifs(object $gifs): ?array
     {
         foreach ($gifs->data as $gif) {
             $this->collection[] = new Gif(
@@ -56,6 +74,9 @@ class ApiClient
                 $gif->images->fixed_height->url,
                 $gif->url
             );
+        }
+        if(empty($this->collection)){
+            return null;
         }
         return $this->collection;
     }

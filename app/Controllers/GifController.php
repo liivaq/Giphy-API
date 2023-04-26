@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\ApiClient;
-use App\Modules\Gif;
+use App\Models\Gif;
 
 class GifController
 {
@@ -14,27 +14,42 @@ class GifController
         $this->client = new ApiClient();
     }
 
-    public function search(): array
+    public function search(): ?array
     {
-        $gifs = [];
         $response = $this->client->searchGifs();
 
-        /** @var Gif $gif */
-        foreach ($response as $gif) {
-            $gifs[] = [
-                'title' => $gif->getTitle(),
-                'url' => $gif->getUrl(),
-                'link' => $gif->getGiphyLink()
-            ];
+        if (!$response) {
+            return null;
         }
-        return $gifs;
+
+        return $this->getGifs($response);
     }
 
-    public function trending(): array
+    public function trending(): ?array
     {
-        $gifs = [];
         $response = $this->client->getTrending();
 
+        if (!$response) {
+            return null;
+        }
+
+       return $this->getGifs($response);
+    }
+
+    public function random(): ?array
+    {
+        $response = $this->client->getRandomGif();
+
+        if (!$response) {
+            return null;
+        }
+
+        return $this->getGifs($response);
+    }
+
+    private function getGifs($response): array
+    {
+        $gifs = [];
         /** @var Gif $gif */
         foreach ($response as $gif) {
             $gifs[] = [
@@ -45,5 +60,4 @@ class GifController
         }
         return $gifs;
     }
-
 }

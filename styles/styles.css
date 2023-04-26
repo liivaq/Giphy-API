@@ -7,6 +7,12 @@ header {
 
 .form {
     text-align: center;
+    display: inline-block;
+}
+
+.gifs{
+    width:100%;
+    text-align: center;
 }
 
 .gif {
@@ -15,7 +21,34 @@ header {
     border: 3px solid black;
 }
 
-.gifs {
+body {
     background-color: darkcyan;
     text-align: center;
+}
+
+.button {
+    background-color: black;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 10px;
+}
+
+.button:hover {
+    background-color: darkgray;
+    color: black;
+    cursor: pointer;
+}
+
+.gifs input[type=text]{
+    padding: 6px;
+    border: none;
+    margin-top: 8px;
+    margin-right: 16px;
+    font-size: 17px;
+    border-radius: 10px
 }

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Modules;
+namespace App\Models;
 
 class Gif
 {
