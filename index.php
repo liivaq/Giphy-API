@@ -13,19 +13,17 @@ $loader = new FilesystemLoader('app/View');
 $twig = new Environment($loader);
 
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
-    $r->addRoute('GET', '/', ['App\Controllers\GifController', 'showGifs']);
-    //$r->addRoute('GET', '/trending', ['App\Controllers\GifController', 'trending']);
+    $r->addRoute('GET', '/', ['App\Controllers\GifController', 'search']);
+    $r->addRoute('GET', '/trending', ['App\Controllers\GifController', 'trending']);
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];
 $uri = $_SERVER['REQUEST_URI'];
-var_dump($uri).PHP_EOL;
 
 if (false !== $pos = strpos($uri, '?')) {
     $uri = substr($uri, 0, $pos);
 }
 $uri = rawurldecode($uri);
-var_dump($uri);
 $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
 switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:
@@ -41,6 +39,6 @@ switch ($routeInfo[0]) {
         $controller = new $controllerName;
         $gifs = $controller->{$method}();
 
-        echo $twig->render('view.php', ['gifs' => $gifs]);
+        echo $twig->render('view.html', ['gifs' => $gifs]);
         break;
 }

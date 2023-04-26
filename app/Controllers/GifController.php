@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -14,14 +14,11 @@ class GifController
         $this->client = new ApiClient();
     }
 
-    public function showGifs(): array
+    public function search(): array
     {
         $gifs = [];
-        if (empty($_GET['search'])) {
-            $response = $this->client->getTrending();
-        } else {
-            $response = $this->client->searchGifs();
-        }
+        $response = $this->client->searchGifs();
+
         /** @var Gif $gif */
         foreach ($response as $gif) {
             $gifs[] = [
@@ -32,4 +29,21 @@ class GifController
         }
         return $gifs;
     }
+
+    public function trending(): array
+    {
+        $gifs = [];
+        $response = $this->client->getTrending();
+
+        /** @var Gif $gif */
+        foreach ($response as $gif) {
+            $gifs[] = [
+                'title' => $gif->getTitle(),
+                'url' => $gif->getUrl(),
+                'link' => $gif->getGiphyLink()
+            ];
+        }
+        return $gifs;
+    }
+
 }
