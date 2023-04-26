@@ -28,7 +28,7 @@ $uri = rawurldecode($uri);
 $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
 switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:
-        echo $twig->render('404.html');
+        echo $twig->render('404.twig');
         break;
     case FastRoute\Dispatcher::FOUND:
         $handler = $routeInfo[1];
@@ -36,6 +36,6 @@ switch ($routeInfo[0]) {
         $controller = new $controllerName;
         $gifs = $controller->{$method}();
 
-        echo $twig->render('gifs.html', ['gifs' => $gifs]);
+        echo $twig->render('gifs.twig', ['gifs' => $gifs]);
         break;
 }
