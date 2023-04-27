@@ -1,14 +1,31 @@
+html {
+    height: 100%;
+}
 header {
     text-align: center;
     background-color: black;
     border-radius: 10px;
     color: ivory;
     padding: 5px;
-    margin-top: 0;
+}
+
+.main-heading {
+    color: white;
+}
+
+.header-link{
+    text-decoration: none;
 }
 
 body {
     background-color: darkcyan;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.content{
+    flex: 1 0 auto;
 }
 
 .form{
@@ -22,12 +39,13 @@ body {
 }
 
 .search-bar{
-    width: 500px;
+    width: 400px;
     height: 30px;
     font-size: 20px;
     border-radius: 10px;
     padding: 6px;
     border: none;
+
 }
 .search-button {
     background-color: white;
@@ -49,7 +67,6 @@ body {
 
 .gif-container{
     display: flex;
-    height: 300px;
     flex-flow: row wrap;
     justify-content: center;
 }
@@ -80,4 +97,14 @@ body {
 
 .error{
     text-align: center;
+}
+
+footer{
+    flex-shrink: 0;
+    text-align: center;
+    background-color: black;
+    border-radius: 10px;
+    color: ivory;
+    padding: 5px;
+    margin-bottom: 5px;
 }

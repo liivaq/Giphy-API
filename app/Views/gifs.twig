@@ -2,28 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Giphy App</title>
+    <title>Only Gifs</title>
     <link rel="stylesheet" href="/styles/styles.css">
 </head>
-<body>
 <header>
-    <h1>Giphy App</h1>
+    <a href="/" class="header-link"><h1 class="main-heading">Only Gifs</h1></a>
 </header>
+<body>
+<div class="content">
 <div class="gifs">
     <form class="form" action="/" method="GET">
         <br>
         <label for="search"></label>
-        <input type="text" name="search" id="search" placeholder="Search for gifs" required class="search-bar">
+        <input type="text" class="search-bar" name="search" id="search" placeholder="Search for gifs" required >
         <input class='search-button' type="submit" value="Search"><br>
+        <br>
+    </form>
+    <form class="form" action="/random" method="GET">
+        <input class='button' type="submit" value="I'm feeling lucky"><br>
         <br>
     </form>
     <form class="form" action="/trending" method="GET">
         <input class='button' type="submit" value="Show trending"><br>
-        <br>
-    </form>
-
-    <form class="form" action="/random" method="GET">
-        <input class='button' type="submit" value="I'm feeling lucky"><br>
         <br>
     </form>
 </div>
@@ -37,7 +37,10 @@
         </a>
     {% endfor %}
 {% endif %}
-</div>>
-
+</div>
+</div>
+<footer>
+    <small>Powered by Giphy @ {{ 'now' | date('Y') }}</small>
+</footer>
 </body>
 </html>
