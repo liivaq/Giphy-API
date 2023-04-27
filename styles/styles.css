@@ -1,11 +1,17 @@
 header {
     text-align: center;
     background-color: black;
+    border-radius: 10px;
     color: ivory;
     padding: 5px;
+    margin-top: 0;
 }
 
-.form {
+body {
+    background-color: darkcyan;
+}
+
+.form{
     text-align: center;
     display: inline-block;
 }
@@ -15,26 +21,55 @@ header {
     text-align: center;
 }
 
+.search-bar{
+    width: 500px;
+    height: 30px;
+    font-size: 20px;
+    border-radius: 10px;
+    padding: 6px;
+    border: none;
+}
+.search-button {
+    background-color: white;
+    border: none;
+    color: black;
+    padding: 9px 10px;
+    text-align: center;
+    display: inline-block;
+    font-size: 20px;
+    border-radius: 10px;
+    margin-left: 5px;
+}
+
+.search-button:hover {
+    background-color: darkgray;
+    color: black;
+    cursor: pointer;
+}
+
+.gif-container{
+    display: flex;
+    height: 300px;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
 .gif {
-    height: 150px;
+    height: 300px;
     margin: 10px;
     border: 3px solid black;
 }
 
-body {
-    background-color: darkcyan;
-    text-align: center;
-}
-
 .button {
-    background-color: black;
+    background-color: white;
     border: none;
-    color: white;
-    padding: 5px 10px;
+    color: black;
+    padding: 9px 10px;
     text-align: center;
     display: inline-block;
-    font-size:16px;
+    font-size: 20px;
     border-radius: 10px;
+    margin-left: 5px;
 }
 
 .button:hover {
@@ -43,11 +78,6 @@ body {
     cursor: pointer;
 }
 
-.gifs input[type=text]{
-    padding: 6px;
-    border: none;
-    margin-top: 8px;
-    margin-right: 16px;
-    font-size: 17px;
-    border-radius: 10px
+.error{
+    text-align: center;
 }
