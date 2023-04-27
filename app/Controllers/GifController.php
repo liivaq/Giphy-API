@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\ApiClient;
-use App\Models\Gif;
 
 class GifController
 {
@@ -22,7 +21,7 @@ class GifController
             return null;
         }
 
-        return $this->getGifs($response);
+        return $response;
     }
 
     public function trending(): ?array
@@ -33,7 +32,7 @@ class GifController
             return null;
         }
 
-       return $this->getGifs($response);
+        return $response;
     }
 
     public function random(): ?array
@@ -44,20 +43,6 @@ class GifController
             return null;
         }
 
-        return $this->getGifs($response);
-    }
-
-    private function getGifs($response): array
-    {
-        $gifs = [];
-        /** @var Gif $gif */
-        foreach ($response as $gif) {
-            $gifs[] = [
-                'title' => $gif->getTitle(),
-                'url' => $gif->getUrl(),
-                'link' => $gif->getGiphyLink()
-            ];
-        }
-        return $gifs;
+        return $response;
     }
 }
