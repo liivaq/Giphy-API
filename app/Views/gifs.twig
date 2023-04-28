@@ -29,11 +29,11 @@
 </div>
 <div class="gif-container">
 {% if gifs == null %}
-    <h3>No gifs found!</h3>
+    <h2>No gifs found!</h2>
 {% else %}
     {% for gif in gifs %}
         <a href="{{ gif.giphylink }}" target="_blank">
-            <img class="gif" src="{{ gif.url }}" alt="{{ gif.title }}">
+            <img class="gif" src="{{ gif.url}}" alt="{{ gif.title}}">
         </a>
     {% endfor %}
 {% endif %}

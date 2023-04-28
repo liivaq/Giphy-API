@@ -5,7 +5,7 @@ namespace App;
 use App\Models\Gif;
 use GuzzleHttp\Client;
 
-class ApiClient
+class GiphyClient
 {
     private Client $client;
     private string $apiKey;
@@ -31,10 +31,10 @@ class ApiClient
         ];
 
         $gifs = $this->client->get('v1/gifs/trending', $parameters);
-        return $this->fetchGifs(json_decode($gifs->getBody()->getContents()));
+        return $this->fetch($gifs);
     }
 
-    public function searchGifs(): ?array
+    public function search(): ?array
     {
         $parameters = [
             'query' => [
@@ -45,10 +45,10 @@ class ApiClient
         ];
 
         $gifs = $this->client->get('v1/gifs/search?', $parameters);
-        return $this->fetchGifs(json_decode($gifs->getBody()->getContents()));
+        return $this->fetch($gifs);
     }
 
-    public function getRandomGif(): array
+    public function getRandom(): array
     {
         $parameters = [
             'query' => [
@@ -59,23 +59,24 @@ class ApiClient
         $response = $this->client->get('v1/gifs/random?', $parameters);
         $gif = json_decode($response->getBody()->getContents());
         $this->collection[] = new Gif(
-                $gif->data->title,
-                $gif->data->images->fixed_height->url,
-                $gif->data->url
-            );
+            $gif->data->title,
+            $gif->data->images->fixed_height->url,
+            $gif->data->url
+        );
         return $this->collection;
     }
 
-    private function fetchGifs(object $gifs): ?array
+    private function fetch(object $gifs): ?array
     {
-        foreach ($gifs->data as $gif) {
+        $gifs = json_decode($gifs->getBody()->getContents())->data;
+        foreach ($gifs as $gif) {
             $this->collection[] = new Gif(
                 $gif->title,
                 $gif->images->fixed_height->url,
                 $gif->url
             );
         }
-        if(empty($this->collection)){
+        if (empty($this->collection)) {
             return null;
         }
         return $this->collection;

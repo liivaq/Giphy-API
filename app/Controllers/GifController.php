@@ -2,20 +2,20 @@
 
 namespace App\Controllers;
 
-use App\ApiClient;
+use App\GiphyClient;
 
 class GifController
 {
-    private ApiClient $client;
+    private GiphyClient $giphyClient;
 
     public function __construct()
     {
-        $this->client = new ApiClient();
+        $this->giphyClient = new GiphyClient();
     }
 
     public function search(): ?array
     {
-        $response = $this->client->searchGifs();
+        $response = $this->giphyClient->search();
 
         if (!$response) {
             return null;
@@ -26,7 +26,7 @@ class GifController
 
     public function trending(): ?array
     {
-        $response = $this->client->getTrending();
+        $response = $this->giphyClient->getTrending();
 
         if (!$response) {
             return null;
@@ -37,7 +37,7 @@ class GifController
 
     public function random(): ?array
     {
-        $response = $this->client->getRandomGif();
+        $response = $this->giphyClient->getRandom();
 
         if (!$response) {
             return null;
