@@ -2,6 +2,7 @@
 
 require_once 'vendor/autoload.php';
 
+use App\Models\View;
 use Dotenv\Dotenv;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -35,11 +36,12 @@ switch ($routeInfo[0]) {
 
     case FastRoute\Dispatcher::FOUND:
         $handler = $routeInfo[1];
+        $vars = $routeInfo[2];
         [$controllerName, $method] = $handler;
 
         $controller = new $controllerName;
-        $gifs = $controller->{$method}();
-
-        echo $twig->render('gifs.twig', ['gifs' => $gifs]);
+        $response = $controller->{$method}();
+        /** @var View $response */
+        echo $twig->render($response->getTemplatePath(), $response->getProperties());
         break;
 }

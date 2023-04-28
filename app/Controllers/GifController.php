@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\GiphyClient;
+use App\Models\View;
 
 class GifController
 {
@@ -13,7 +14,7 @@ class GifController
         $this->giphyClient = new GiphyClient();
     }
 
-    public function search(): ?array
+    public function search(): ?View
     {
         $response = $this->giphyClient->search();
 
@@ -21,10 +22,10 @@ class GifController
             return null;
         }
 
-        return $response;
+        return new View('gifs.twig', ['gifs' => $response]);
     }
 
-    public function trending(): ?array
+    public function trending(): ?View
     {
         $response = $this->giphyClient->getTrending();
 
@@ -32,10 +33,10 @@ class GifController
             return null;
         }
 
-        return $response;
+        return new View('gifs.twig', ['gifs' => $response]);
     }
 
-    public function random(): ?array
+    public function random(): ?View
     {
         $response = $this->giphyClient->getRandom();
 
@@ -43,6 +44,6 @@ class GifController
             return null;
         }
 
-        return $response;
+        return new View('gifs.twig', ['gifs' => $response]);
     }
 }
