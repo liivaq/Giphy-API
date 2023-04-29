@@ -1,0 +1,21 @@
+{% include 'partials/header.html' %}
+{% include 'partials/searchbar.html' %}
+
+    <div class="box-container">
+        {% if categories == null %}
+        <h2>No gifs found!</h2>
+        {% else %}
+            {% for category in categories %}
+
+                <div class="box">
+                    <a href="/categories/{{ category.name }}" class="category-name">
+                    <h3 class="category-name">{{ category.name | upper }}</h3>
+                    </a>
+                </div>
+
+            {% endfor %}
+        {% endif %}
+
+    </div>
+
+{% include 'partials/footer.html' %}

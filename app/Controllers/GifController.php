@@ -14,36 +14,46 @@ class GifController
         $this->giphyClient = new GiphyClient();
     }
 
-    public function search(): ?View
+    public function search($subcategory): ?View
     {
-        $response = $this->giphyClient->search();
+        $gifs = $this->giphyClient->search($subcategory);
 
-        if (!$response) {
+        if (!$gifs) {
             return null;
         }
 
-        return new View('gifs.twig', ['gifs' => $response]);
+        return new View('gifs.twig', ['gifs' => $gifs]);
     }
 
     public function trending(): ?View
     {
-        $response = $this->giphyClient->getTrending();
+        $gifs = $this->giphyClient->getTrending();
 
-        if (!$response) {
+        if (!$gifs) {
             return null;
         }
 
-        return new View('gifs.twig', ['gifs' => $response]);
+        return new View('gifs.twig', ['gifs' => $gifs]);
     }
 
     public function random(): ?View
     {
-        $response = $this->giphyClient->getRandom();
+        $gifs = $this->giphyClient->getRandom();
 
-        if (!$response) {
+        if (!$gifs) {
             return null;
         }
 
-        return new View('gifs.twig', ['gifs' => $response]);
+        return new View('gifs.twig', ['gifs' => $gifs]);
+    }
+
+    public function categories($subcategory): View
+    {
+        $categories = $this->giphyClient->getCategories($subcategory);
+        if (!$subcategory) {
+            return new View('categories.twig', ['categories' => $categories]);
+        }
+
+        return new View('subcategories.twig', ['categories' => $categories]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Category;
 use App\Models\Gif;
 use GuzzleHttp\Client;
 
@@ -11,6 +12,7 @@ class GiphyClient
     private string $apiKey;
     private int $limit;
     private array $collection = [];
+    private array $categories = [];
 
     public function __construct($limit = 30)
     {
@@ -34,11 +36,11 @@ class GiphyClient
         return $this->fetch($gifs);
     }
 
-    public function search(): ?array
+    public function search($subcategory): ?array
     {
         $parameters = [
             'query' => [
-                'q' => $_GET['search'] ?? 'coding',
+                'q' => $_GET['search'] ?? $subcategory ?? 'coding',
                 'api_key' => $this->apiKey,
                 'limit' => $this->limit,
             ]
@@ -64,6 +66,41 @@ class GiphyClient
             $gif->data->url
         );
         return $this->collection;
+    }
+
+    public function getCategories($data = null): ?array
+    {
+        $parameters = [
+            'query' => [
+                'api_key' => $this->apiKey,
+            ]
+        ];
+
+        $response = $this->client->get('v1/gifs/categories', $parameters);
+        $categories = json_decode($response->getBody()->getContents())->data;
+
+        foreach ($categories as $category) {
+            $name = $category->name;
+            $subcategories = [];
+            foreach ($category->subcategories as $subcategory) {
+                $subcategories[] = $subcategory->name;
+            }
+            $this->categories[$name] = new Category($name, $subcategories);
+        }
+
+        if($data !== null){
+            if(!$this->categories[$data]){
+                return null;
+            }
+
+            $subcategories = [];
+            foreach($this->categories[$data]->getSubcategories() as $subcategory){
+                $subcategories[] = $subcategory;
+            };
+            return $subcategories;
+        }
+
+        return $this->categories;
     }
 
     private function fetch(object $gifs): ?array

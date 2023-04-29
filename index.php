@@ -15,8 +15,10 @@ $twig = new Environment($loader);
 
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/', ['App\Controllers\GifController', 'search']);
+    $r->addRoute('GET', '/search/[{name}]', ['App\Controllers\GifController', 'search']);
     $r->addRoute('GET', '/trending', ['App\Controllers\GifController', 'trending']);
     $r->addRoute('GET', '/random', ['App\Controllers\GifController', 'random']);
+    $r->addRoute('GET', '/categories[/{name}]', ['App\Controllers\GifController', 'categories']);
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];
@@ -37,10 +39,10 @@ switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::FOUND:
         $handler = $routeInfo[1];
         $vars = $routeInfo[2];
-        [$controllerName, $method] = $handler;
+        [$controller, $method] = $handler;
 
-        $controller = new $controllerName;
-        $response = $controller->{$method}();
+        $response = (new $controller)->{$method}($vars['name']);
+
         /** @var View $response */
         echo $twig->render($response->getTemplatePath(), $response->getProperties());
         break;
