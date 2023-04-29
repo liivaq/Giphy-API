@@ -36,7 +36,7 @@ class GiphyClient
         return $this->fetch($gifs);
     }
 
-    public function search($subcategory): ?array
+    public function search(string $subcategory = null): ?array
     {
         $parameters = [
             'query' => [
@@ -68,7 +68,7 @@ class GiphyClient
         return $this->collection;
     }
 
-    public function getCategories($data = null): ?array
+    public function getCategories(string $categoryName = null): ?array
     {
         $parameters = [
             'query' => [
@@ -81,23 +81,19 @@ class GiphyClient
 
         foreach ($categories as $category) {
             $name = $category->name;
+            $url = $category->gif->images->fixed_width->url;
             $subcategories = [];
             foreach ($category->subcategories as $subcategory) {
                 $subcategories[] = $subcategory->name;
             }
-            $this->categories[$name] = new Category($name, $subcategories);
+            $this->categories[$name] = new Category($name, $subcategories, $url);
         }
 
-        if($data !== null){
-            if(!$this->categories[$data]){
+        if ($categoryName) {
+            if (!$this->categories[$categoryName]) {
                 return null;
             }
-
-            $subcategories = [];
-            foreach($this->categories[$data]->getSubcategories() as $subcategory){
-                $subcategories[] = $subcategory;
-            };
-            return $subcategories;
+            return $this->categories[$categoryName]->getSubcategories();
         }
 
         return $this->categories;

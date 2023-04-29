@@ -1,21 +1,22 @@
 {% include 'partials/header.html' %}
 {% include 'partials/searchbar.html' %}
 
-    <div class="box-container">
-        {% if categories == null %}
+<h1 class="category-heading">Explore most popular gif categories</h1>
+<div class="box-container">
+    {% if categories == null %}
         <h2>No gifs found!</h2>
-        {% else %}
-            {% for category in categories %}
+    {% else %}
+        {% for category in categories %}
 
-                <div class="box">
-                    <a href="/categories/{{ category.name }}" class="category-name">
+            <div class="box" style="background-image: url({{ category.url }}) ">
+                <a href="/categories/{{ category.name }}" class="category-name">
                     <h3 class="category-name">{{ category.name | upper }}</h3>
-                    </a>
-                </div>
+                </a>
+            </div>
 
-            {% endfor %}
-        {% endif %}
+        {% endfor %}
+    {% endif %}
 
-    </div>
+</div>
 
 {% include 'partials/footer.html' %}
