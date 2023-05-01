@@ -10,7 +10,7 @@ Simple app to search for gifs using Giphy API.
 5. Open the link in a web browser of your choice.
 6. Enjoy!
 
-#Preview:
+# Preview:
 
 1. Search for gifs,
 2. Explore trending gifs,
